@@ -1,19 +1,31 @@
 resources:
-- name: source-code-resource
+- name: source-code
   type: git
   source:
     uri: {{source-code-resource-uri}}
-
+- name: resource-deploy-web-app
+  type: cf
+  source:
+    api: ((cf-api))
+    username: ((cf-username))
+    password: ((repo-password))
+    organization: ((cf-org))
+    space: ((cf-space))
+    skip_cert_check: false
+    
 jobs:
 - name: job-build-and-verify
   plan:
-  - get: source-code-resource
+  - get: source-code
     trigger: true
   - task: build-and-verify
-    file: source-code-resource/tasks/maven-build.yml
+    file: source-code/tasks/build.yml
     params:
       M2_SETTINGS_REPO_ID : {{repo-id}}
       M2_SETTINGS_REPO_USERNAME : {{repo-username}}
       M2_SETTINGS_REPO_PASSWORD : {{repo-password}}
       M2_SETTINGS_REPO_RELEASE_URI : {{repo-release-uri}}
       M2_SETTINGS_REPO_SNAPSHOT_URI : {{repo-snapshot-uri}}
+  - put: resource-deploy-web-app
+    params:
+      manifest: source-code/manifest.yml
