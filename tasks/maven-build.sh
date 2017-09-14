@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Using MAVEN_OPTS: ${MAVEN_OPTS}"
+
 set -e
 
 ./source-code-resource/tasks/generate-settings.sh
