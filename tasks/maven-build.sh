@@ -2,7 +2,7 @@
 
 set -e
 
-./pipeline/tasks/generate-settings.sh
+./source-code-resource/tasks/generate-settings.sh
 
 cd source-code || echo "missing input resource: source-code"
 
