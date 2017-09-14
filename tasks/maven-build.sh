@@ -4,7 +4,7 @@ set -e
 
 ./source-code-resource/tasks/generate-settings.sh
 
-cd source-code || echo "missing input resource: source-code"
+cd source-code-resource || echo "missing input resource: source-code"
 
 echo "Using MAVEN_OPTS: ${MAVEN_OPTS}"
 
