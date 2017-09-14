@@ -1,14 +1,19 @@
 resources:
-- name: source-code
+- name: source-code-resource
   type: git
   source:
-    uri: https://github.com/miguelanrolhor/concourse
-    branch: master
+    uri: {{source-code-resource-uri}}
 
 jobs:
-- name: build-and-verify
+- name: job-build-and-verify
   plan:
-  - get: source-code
+  - get: source-code-resource
     trigger: true
   - task: build-and-verify
-    file: source-code/tasks/build.yml
+    file: source-code-resource/tasks/maven-build.yml
+    params:
+      M2_SETTINGS_REPO_ID : {{repo-id}}
+      M2_SETTINGS_REPO_USERNAME : {{repo-username}}
+      M2_SETTINGS_REPO_PASSWORD : {{repo-password}}
+      M2_SETTINGS_REPO_RELEASE_URI : {{repo-release-uri}}
+      M2_SETTINGS_REPO_SNAPSHOT_URI : {{repo-snapshot-uri}}
